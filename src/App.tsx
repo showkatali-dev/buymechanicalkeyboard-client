@@ -1,10 +1,9 @@
+import { RouterProvider } from "react-router-dom";
+import router from "./routes";
+
 const App = () => {
   return (
-    <div>
-      <h1 className="text-center text-primary font-semibold text-2xl">
-        Buy Mechanical Keyboard
-      </h1>
-    </div>
+    <RouterProvider router={router} fallbackElement={<div>Loading...</div>} />
   );
 };
 
