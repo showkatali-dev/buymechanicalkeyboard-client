@@ -34,6 +34,12 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      fontFamily: {
+        sans: ["Barlow", "sans-serif"],
+      },
+      boxShadow: {
+        sam: "0px 6px 17px rgba(0, 0, 0, 0.06)",
+      },
     },
   },
   plugins: [tailwindcssAnimate, daisyui],
@@ -42,10 +48,12 @@ export default {
       {
         default: {
           primary: "#00026E",
+          "primary-content": "#DADEE7",
           secondary: "#FDCC02",
-          accent: "#43CAF9",
-          "base-100": "#EBF0F4",
-          "base-200": "#FFFFFF",
+          accent: "#1b1b38",
+          "base-100": "#FFFFFF",
+          "base-200": "#EBF0F4",
+          "base-300": "#ECF3FE",
         },
       },
     ],
