@@ -4,7 +4,7 @@ import { RiSecurePaymentFill } from "react-icons/ri";
 import { FaShippingFast } from "react-icons/fa";
 const AdvertisementSection = () => {
   return (
-    <section className="bg-accent mb-12 py-4">
+    <section className="bg-accent mb-16 py-4">
       <section className="grid grid-cols-4 divide-x rounded-md">
         <div className="flex flex-col items-center gap-2 p-4 text-center">
           <FaShippingFast className="text-4xl text-white" />

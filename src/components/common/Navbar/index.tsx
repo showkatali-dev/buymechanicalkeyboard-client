@@ -5,9 +5,11 @@ import MyCart from "./MyCart";
 import SelectBrand from "./SelectBrand";
 import MenuItemsForDesktop from "./MenuItemsForDesktop";
 import DiscountBadge from "./DiscountBadge";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
 const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -16,13 +18,15 @@ const Navbar = () => {
       return () => {
         if (element) {
           if (element.getBoundingClientRect().top <= 0) {
-            element.classList.add("!bg-base-100");
+            setIsScrolled(true);
           } else {
-            element.classList.remove("!bg-base-100");
+            setIsScrolled(false);
           }
         }
       };
     };
+
+    checkTopDistanceOfElement(element)();
 
     window.addEventListener("scroll", checkTopDistanceOfElement(element));
 
@@ -72,7 +76,10 @@ const Navbar = () => {
 
       <nav
         ref={ref}
-        className="sticky top-0 z-20 transition bg-base-200 border-b border-b-base-content/10"
+        className={cn(
+          "sticky top-0 z-20 transition bg-base-200 border-b border-b-base-content/10",
+          isScrolled && "bg-base-100 shadow"
+        )}
       >
         <div className="flex items-center justify-between container">
           <div className="flex items-center gap-8 py-3">

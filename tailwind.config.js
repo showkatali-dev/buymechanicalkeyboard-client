@@ -49,7 +49,7 @@ export default {
         default: {
           primary: "#00026E",
           "primary-content": "#DADEE7",
-          secondary: "#FDCC02",
+          secondary: "#F77B02",
           accent: "#1b1b38",
           "base-100": "#FFFFFF",
           "base-200": "#EBF0F4",

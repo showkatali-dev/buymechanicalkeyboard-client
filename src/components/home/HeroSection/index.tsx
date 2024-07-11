@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
-    <section className="py-5 container flex gap-4 xl:h-[540px] 2xl:h-[600px] mb-6">
+    <section className="py-5 container flex gap-4 xl:h-[540px] 2xl:h-[600px] mb-8">
       <div className="flex-1 h-full rounded-md overflow-hidden relative">
         <img
           src="/images/banner.jpg"
