@@ -78,7 +78,7 @@ const Navbar = () => {
         ref={ref}
         className={cn(
           "sticky top-0 z-20 transition bg-base-200 border-b border-b-base-content/10",
-          isScrolled && "bg-base-100 shadow"
+          isScrolled && "bg-base-100"
         )}
       >
         <div className="flex items-center justify-between container">

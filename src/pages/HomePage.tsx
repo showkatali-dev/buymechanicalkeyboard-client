@@ -3,7 +3,7 @@ import CustomerReviewsSection from "@/components/home/CustomerReviewsSection";
 import FeaturedSection from "@/components/home/FeaturedSection";
 import HeroSection from "@/components/home/HeroSection";
 import TopFeaturedBrandSection from "@/components/home/TopFeaturedBrandSection";
-import WhyChooseSection from "@/components/home/WhyChooseSection";
+// import WhyChooseSection from "@/components/home/WhyChooseSection";
 
 const HomePage = () => {
   return (
@@ -13,7 +13,7 @@ const HomePage = () => {
       <FeaturedSection />
       <TopFeaturedBrandSection />
       <CustomerReviewsSection />
-      <WhyChooseSection />
+      {/* <WhyChooseSection /> */}
     </main>
   );
 };

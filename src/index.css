@@ -26,3 +26,30 @@ body {
 .animate-bounce-x {
   animation: bounce-x 1s infinite;
 }
+
+.review-swiper .swiper-slide-shadow-coverflow {
+  background-image: none !important;
+}
+
+.review-swiper .swiper-slide-prev {
+  transform: translate3d(0px, 0px, -106.642px) rotateX(0deg) rotateY(53.3209deg)
+    scale(0.85) !important;
+}
+
+.review-swiper .swiper-slide-next {
+  transform: translate3d(0px, 0px, -106.716px) rotateX(0deg)
+    rotateY(-53.3582deg) scale(0.85) !important;
+}
+
+/* range slider customization */
+.range-slider__range {
+  @apply !bg-base-200;
+}
+
+.range-slider__thumb {
+  @apply ring-2 ring-primary !bg-base-100 shadow shadow-primary !size-4;
+}
+
+.range-slider__thumb[data-active] {
+  transform: translate(-50%, -50%) scale(1.15) !important;
+}

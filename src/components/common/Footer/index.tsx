@@ -108,7 +108,7 @@ const Footer = () => {
             <div>
               <img
                 src="/images/logo-stripe3.png"
-                className="w-full border rounded"
+                className="w-full border rounded max-w-80"
                 alt="Stripe"
               />
             </div>
