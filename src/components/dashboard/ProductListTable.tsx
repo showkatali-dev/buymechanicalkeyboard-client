@@ -1,6 +1,12 @@
-import { AiOutlineDelete } from "react-icons/ai";
-import { AiOutlineEdit } from "react-icons/ai";
-const ProductListTable = () => {
+import EditProduct from "./EditProduct";
+import DeleteProduct from "./DeleteProduct";
+import { IProduct } from "@/interface/product";
+
+interface IProps {
+  products: IProduct[];
+}
+
+const ProductListTable = ({ products }: IProps) => {
   return (
     <table className="table max-sm:!text-xs">
       <thead>
@@ -13,32 +19,35 @@ const ProductListTable = () => {
         </tr>
       </thead>
       <tbody>
-        <tr className="duration-200 cursor-auto group">
-          <th className="border-0 border-y bg-base-100 group-hover:bg-base-200 duration-200">
-            1
-          </th>
+        {products.map((product, index) => {
+          const { _id, name, price, brandName } = product;
 
-          <td className="border-0 border-y bg-base-100 group-hover:bg-base-200 duration-200">
-            <h2 className="font-semibold text-base">Mechanical Keyboard</h2>
-          </td>
-          <td className="border-0 border-y bg-base-100 group-hover:bg-base-200 duration-200">
-            <p className="font-semibold text-secondary">$100</p>
-          </td>
+          return (
+            <tr key={_id} className="duration-200 cursor-auto group">
+              <th className="border-0 border-y bg-base-100 group-hover:bg-base-200 duration-200">
+                {index + 1}
+              </th>
 
-          <td className="border-0 border-y bg-base-100 group-hover:bg-base-200 duration-200">
-            <p className="font-medium">Logitech</p>
-          </td>
-          <td className="border-0 border-y bg-base-100 group-hover:bg-base-200 duration-200 w-[100px]">
-            <div className="flex items-center justify-end gap-3">
-              <button className="btn btn-sm btn-primary btn-square rounded-md">
-                <AiOutlineEdit />
-              </button>
-              <button className="btn btn-sm btn-secondary btn-square rounded-md">
-                <AiOutlineDelete />
-              </button>
-            </div>
-          </td>
-        </tr>
+              <td className="border-0 border-y bg-base-100 group-hover:bg-base-200 duration-200">
+                <h2 className="font-semibold text-base">{name}</h2>
+              </td>
+              <td className="border-0 border-y bg-base-100 group-hover:bg-base-200 duration-200">
+                <p className="font-semibold">${price}</p>
+              </td>
+
+              <td className="border-0 border-y bg-base-100 group-hover:bg-base-200 duration-200">
+                <p className="font-medium">{brandName}</p>
+              </td>
+              <td className="border-0 border-y bg-base-100 group-hover:bg-base-200 duration-200 w-[100px]">
+                <div className="flex items-center justify-end gap-3">
+                  <EditProduct product={product} />
+
+                  <DeleteProduct />
+                </div>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

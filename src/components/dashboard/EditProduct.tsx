@@ -1,11 +1,32 @@
-import { AiOutlinePlus } from "react-icons/ai";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { BiLoader } from "react-icons/bi";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { IProduct } from "@/interface/product";
+import { IProductInputs } from "@/interface/productInputs";
+import { useGetAllBrandsQuery } from "@/redux/api/brandApi";
+import { useUpdateProductMutation } from "@/redux/api/productApi";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IProductInputs } from "@/interface/productInputs";
+import { AiOutlineEdit } from "react-icons/ai";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-const AddProduct = () => {
+interface IProps {
+  product: IProduct;
+}
+
+const EditProduct = ({ product }: IProps) => {
+  const { _id, name, price, description, availableQuantity, rating, image } =
+    product;
+
   const [open, setOpen] = useState(false);
+
+  const { data } = useGetAllBrandsQuery(undefined);
+  const [updateProduct, { isLoading, isError }] = useUpdateProductMutation();
 
   const {
     register,
@@ -13,20 +34,37 @@ const AddProduct = () => {
     handleSubmit,
   } = useForm<IProductInputs>();
 
-  const onSubmit: SubmitHandler<IProductInputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<IProductInputs> = async (data) => {
+    if (isLoading) return;
+    const { error } = await updateProduct({
+      id: _id,
+      body: {
+        ...data,
+        availableQuantity: Number(data.availableQuantity),
+        price: Number(data.price),
+        rating: Number(data.rating),
+      },
+    });
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+    setOpen(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className="btn btn-primary min-h-0 rounded-md h-10">
-          <AiOutlinePlus /> Add Product
+        <button className="btn btn-sm btn-primary btn-square rounded-md">
+          <AiOutlineEdit />
         </button>
       </DialogTrigger>
       <DialogContent className="p-0 overflow-hidden">
         <div className="bg-base-200 px-5 py-3">
-          <h1 className="font-bold text-xl">Add New Product</h1>
+          <DialogTitle asChild>
+            <h1 className="font-bold text-xl">Add New Product</h1>
+          </DialogTitle>
         </div>
 
         <div className="max-h-[80vh] overflow-y-auto">
@@ -34,6 +72,14 @@ const AddProduct = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="grid gap-4 mb-4 px-5"
           >
+            {isError && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Failed</AlertTitle>
+                <AlertDescription>Something went wrong!</AlertDescription>
+              </Alert>
+            )}
+
             <label className="form-control gap-1">
               <span className="font-medium">
                 Product Name <span className="text-error">*</span>
@@ -48,6 +94,7 @@ const AddProduct = () => {
                     message: "Product name cannot exceed 100 characters",
                   },
                 })}
+                defaultValue={name}
                 data-invalid={errors.name ? "true" : "false"}
               />
               {errors.name && (
@@ -70,6 +117,7 @@ const AddProduct = () => {
                   },
                 })}
                 data-invalid={errors.price ? "true" : "false"}
+                defaultValue={price}
               />
               {errors.price && (
                 <p className="text-sm text-error">{errors.price.message}</p>
@@ -86,6 +134,7 @@ const AddProduct = () => {
                   required: "Description is required",
                 })}
                 data-invalid={errors.description ? "true" : "false"}
+                defaultValue={description}
               ></textarea>
               {errors.description && (
                 <p className="text-sm text-error">
@@ -109,6 +158,7 @@ const AddProduct = () => {
                   },
                 })}
                 data-invalid={errors.availableQuantity ? "true" : "false"}
+                defaultValue={availableQuantity}
               />
               {errors.availableQuantity && (
                 <p className="text-sm text-error">
@@ -125,6 +175,7 @@ const AddProduct = () => {
                 className="select rounded-md select-bordered focus:border-transparent min-h-0 h-11 focus:outline-0 focus:ring-1 focus:ring-secondary data-[invalid=true]:ring-error data-[invalid=true]:ring-1"
                 {...register("rating", { required: "Rating is required" })}
                 data-invalid={errors.rating ? "true" : "false"}
+                defaultValue={rating}
               >
                 <option value="5">5 Star</option>
                 <option value="4">4 Star</option>
@@ -148,6 +199,7 @@ const AddProduct = () => {
                   required: "Image is required",
                 })}
                 data-invalid={errors.image ? "true" : "false"}
+                defaultValue={image}
               />
               {errors.image && (
                 <p className="text-sm text-error">{errors.image?.message}</p>
@@ -163,7 +215,14 @@ const AddProduct = () => {
                 {...register("brand", { required: "Brand is required" })}
                 data-invalid={errors.brand ? "true" : "false"}
               >
-                <option value="5">Logitech</option>
+                {data?.data?.map((brand) => {
+                  const { _id, title } = brand;
+                  return (
+                    <option key={_id} value={_id}>
+                      {title}
+                    </option>
+                  );
+                })}
               </select>
               {errors.brand && (
                 <p className="text-sm text-error">{errors.brand?.message}</p>
@@ -174,7 +233,13 @@ const AddProduct = () => {
               type="submit"
               className="btn btn-primary rounded-md text-base"
             >
-              Add Product
+              {isLoading ? (
+                <>
+                  <BiLoader className="animate-spin" /> Updating...
+                </>
+              ) : (
+                "Update Product"
+              )}
             </button>
           </form>
         </div>
@@ -183,4 +248,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;
